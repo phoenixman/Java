@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<beans xmlns="http://www.springframework.org/schema/beans"  
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+    xmlns:aop="http://www.springframework.org/schema/aop"  
+    xmlns:context="http://www.springframework.org/schema/context"  
+    xmlns:tx="http://www.springframework.org/schema/tx"  
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd  
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd  
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd  
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.1.xsd"> 
+      <!-- 基于xml的声明式事务 -->
+      <bean id="bookManager" class="com.man.spring.aop.BookManager"/> 
+      <bean id="log" class="com.man.spring.aop.Log"/>
+      <!-- aop配置开始 -->
+      <aop:config>
+      		<!-- 切面配置开始 -->
+       		<aop:aspect ref="log">
+       			<!-- 切入点配置 -->
+       			<aop:pointcut id="addbooklog"  expression="execution(* com.man.spring.aop.BookManager.addBook(..))"/>
+       			<!-- 通知配置 -->
+       			<aop:before pointcut-ref="addbooklog" method="beforeAddBook"/>
+       			<aop:after pointcut-ref="addbooklog" method="afterAddBook"/>
+       			<aop:after-throwing pointcut-ref="addbooklog" method="addBookFail"/>
+       			
+       			<aop:around pointcut-ref="addbooklog" method="aroundAdvicer"/>
+       		</aop:aspect>
+       </aop:config> 
+       
+</beans>
