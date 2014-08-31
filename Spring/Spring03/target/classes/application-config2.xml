@@ -46,23 +46,10 @@
      </bean>
      
      <!-- 配置事务  jdbc的事务管理器-->
-     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+     <bean id="transactionMansager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
      	<property name="dataSource" ref="dataSource"/>     
      </bean>
      
-     <!-- 使用xml方式配置事务开始 -->
-     <!-- 定义事务属性并 指定事务管理器 -->
-     <tx:advice id="advice" transaction-manager="transactionManager">
-     	<tx:attributes>
-     		<!-- add开头的方法需要在事务中运行 -->
-     		<tx:method name="add*" propagation="REQUIRED"/>
-     		<!-- 其他方法 如果有事务则在事务中运行，否则不需要事务，并且只读 -->
-     		<tx:method name="*" propagation="SUPPORTS" read-only="true"/>
-     	</tx:attributes>
-     </tx:advice>
-     <!-- 定义事务的切入点 -->
-     <aop:config>
-     	<aop:pointcut expression="execution(* com.man.spring.jdbc.dao.*.*(..))" id="interceptorPointCuts"/>
-     	<aop:advisor advice-ref="advice" pointcut-ref="interceptorPointCuts"/>
-     </aop:config>
+    <!-- 使用注解的方式配置事务  默认使用id为transactionManager的事务管理器-->
+    <tx:annotation-driven transaction-manager="transactionManager"/>
 </beans>

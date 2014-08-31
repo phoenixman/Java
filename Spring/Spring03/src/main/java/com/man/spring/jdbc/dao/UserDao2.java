@@ -9,21 +9,22 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSourceUtils;
-import org.springframework.jdbc.core.simple.SimpleJdbcDaoSupport;
-import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.man.spring.jdbc.entity.User;
-
+//声明事务，所有方法都不一定需要事务，且只读
 @Repository
-public class UserDao {
+@Transactional(propagation=Propagation.SUPPORTS ,readOnly=true)
+public class UserDao2 {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 	@Autowired
 	private NamedParameterJdbcTemplate namedJdbcTemplate;
 
-
-	
+	//在方法上声明事务，需要事务
+	@Transactional(propagation=Propagation.REQUIRED,readOnly=false)
 	public void addUser(User user){
 		Map<String,Object> params=new HashMap<String, Object>();
 		params.put("name",user.getName());
@@ -33,7 +34,8 @@ public class UserDao {
 		String sql="insert into user(age,name,create_time) values(:age,:name,:create_time)";
 		namedJdbcTemplate.update(sql, params);
 	}
-	
+	//在方法上声明事务，需要事务
+	@Transactional(propagation=Propagation.REQUIRED,readOnly=false)
 	public void banchAddUsers(List<User> users){
 		String sql="insert into user(name,age,create_time) values(:name,:age,:create_time)";
 		Object[] beans=new Object[users.size()];

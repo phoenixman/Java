@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 对象和表的映射文件 -->
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.man.spring.hibernate.entity">
+	<class table="user" name="User"><!-- 指定包下的哪个类跟哪个表对应 -->
+		<!-- id元素拥有指定主键属性  主键自增长-->
+		<id name="id" column="id">
+		<generator class="increment"/>
+		</id>
+		<property name="name" length="50" type="java.lang.String"/>
+		<property name="age"/>
+	</class>	
+</hibernate-mapping>

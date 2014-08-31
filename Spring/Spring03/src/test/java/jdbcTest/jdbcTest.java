@@ -9,16 +9,18 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.man.spring.jdbc.entity.User;
 import com.man.spring.jdbc.service.UserService;
+import com.man.spring.jdbc.service.UserService2;
 
 public class jdbcTest {
 	public static void main(String[] args) {
-		ApplicationContext context=new ClassPathXmlApplicationContext("application-config.xml");
-		UserService us=(UserService) context.getBean("userService");
+		//ApplicationContext context=new ClassPathXmlApplicationContext("application-config.xml");
+		ApplicationContext context=new ClassPathXmlApplicationContext("application-config2.xml");
+		UserService2 us=(UserService2) context.getBean("userService2");
 		addUserTest(us);
 		//banchUpdateUsers(us);
 	}
 
-	private static void addUserTest(UserService us) {
+	private static void addUserTest(UserService2 us) {
 		User user=new User();
 		user.setName("xiaoming");
 		user.setAge(15);
